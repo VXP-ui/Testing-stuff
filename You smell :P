@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Effect</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Full height of the viewport */
+            background-color: #000; /* Black background */
+            font-family: Arial, sans-serif;
+            color: #fff; /* White text */
+            margin: 0;
+            padding: 20px; /* Padding for smaller screens */
+            text-align: center; /* Center text */
+        }
+        #message {
+            font-size: 10vw; /* Responsive font size */
+            max-font-size: 100px; /* Maximum font size */
+            border-right: 2px solid #fff; /* White cursor */
+            white-space: normal; /* Allow text to wrap */
+            overflow: hidden;
+            font-weight: bold; /* Bold text */
+            line-height: 1.2; /* Adjust line height */
+            max-width: 90%; /* Limit width to prevent overflow */
+        }
+    </style>
+</head>
+<body>
+    <div id="message"></div>
+
+    <script>
+        const message = "Take a shower smelly :P"; // Added :P here
+        let index = 0;
+
+        function type() {
+            if (index < message.length) {
+                document.getElementById("message").innerHTML += message.charAt(index);
+                index++;
+                setTimeout(type, 150); // Adjust the speed here (in milliseconds)
+            }
+        }
+
+        type();
+    </script>
+</body>
+</html>
