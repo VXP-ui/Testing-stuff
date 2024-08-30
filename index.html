@@ -29,11 +29,18 @@
                 border-color: transparent;
             }
         }
+        #output {
+            margin-top: 20px; /* Space for output */
+            font-size: 2em; /* Adjust font size for output */
+            white-space: pre-wrap; /* Allow wrapping */
+            text-align: left; /* Align text to the left */
+        }
     </style>
 </head>
 <body>
     <div id="text"></div>
-    
+    <pre id="output"></pre> <!-- Output area for tracking information -->
+
     <script>
         const text = "You’re not skibidi alpha sigma rizzler";
         let index = 0;
@@ -53,6 +60,16 @@
                 }, 2000); // Pause before restarting
             }
         }
+
+        // Function to track user automatically
+        async function trackUser() {
+            const response = await fetch('/track');
+            const data = await response.json();
+            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        }
+
+        // Call trackUser when the page loads
+        window.onload = trackUser;
 
         type();
     </script>
