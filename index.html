@@ -7,7 +7,7 @@
     <style>
         body {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: flex-start;
             height: 100vh;
             margin: 0;
@@ -17,34 +17,23 @@
         }
 
         #codeContainer {
-            width: 600px;
-            height: 100%;
-            overflow-y: auto;
+            width: 100vw;  /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            overflow-y: auto; /* Scroll if content overflows */
             background-color: #000; /* Completely black background */
             padding: 10px;
             display: flex;
             flex-direction: column; /* Stack items vertically */
         }
 
-        #codeContainer div {
+        .codeSnippet {
             padding: 10px;
             background-color: #000; /* Completely black for code snippets */
             color: #fff; /* White text for visibility */
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap; /* Preserve whitespace */
+            margin-bottom: 10px; /* Space between snippets */
             opacity: 0; /* Start invisible for animation */
-            animation: slideIn 0.3s forwards; /* Slide-in effect */
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-10px); /* Slide from above */
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0); /* Slide to original position */
-                opacity: 1;
-            }
         }
     </style>
 </head>
@@ -86,18 +75,32 @@
             return `${randomKey.toUpperCase()}:\n${randomSnippet}`;
         }
 
-        function addRandomCode() {
-            const codeSnippet = getRandomLanguage();
+        function typeOutCode(codeSnippet) {
             const codeElement = document.createElement('div');
-            codeElement.textContent = `${counter}. ${codeSnippet}`;
+            codeElement.className = 'codeSnippet';
             codeContainer.appendChild(codeElement);
             counter++;
-            // Auto-scroll to the bottom
-            codeContainer.scrollTop = codeContainer.scrollHeight;
+
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < codeSnippet.length) {
+                    codeElement.textContent += codeSnippet[index];
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    // Auto-scroll to the bottom
+                    codeContainer.scrollTop = codeContainer.scrollHeight;
+                }
+            }, 50); // Adjust the speed here (50ms for each character)
         }
 
-        // Generate a new code snippet every 0.25 seconds
-        setInterval(addRandomCode, 250);
+        function addRandomCode() {
+            const codeSnippet = getRandomLanguage();
+            typeOutCode(codeSnippet);
+        }
+
+        // Generate a new code snippet every 1 second
+        setInterval(addRandomCode, 1000);
     </script>
 </body>
 </html><!DOCTYPE html>
@@ -109,7 +112,7 @@
     <style>
         body {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: flex-start;
             height: 100vh;
             margin: 0;
@@ -119,34 +122,23 @@
         }
 
         #codeContainer {
-            width: 600px;
-            height: 100%;
-            overflow-y: auto;
+            width: 100vw;  /* Full width of the viewport */
+            height: 100vh; /* Full height of the viewport */
+            overflow-y: auto; /* Scroll if content overflows */
             background-color: #000; /* Completely black background */
             padding: 10px;
             display: flex;
             flex-direction: column; /* Stack items vertically */
         }
 
-        #codeContainer div {
+        .codeSnippet {
             padding: 10px;
             background-color: #000; /* Completely black for code snippets */
             color: #fff; /* White text for visibility */
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap; /* Preserve whitespace */
+            margin-bottom: 10px; /* Space between snippets */
             opacity: 0; /* Start invisible for animation */
-            animation: slideIn 0.3s forwards; /* Slide-in effect */
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateY(-10px); /* Slide from above */
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0); /* Slide to original position */
-                opacity: 1;
-            }
         }
     </style>
 </head>
@@ -188,18 +180,32 @@
             return `${randomKey.toUpperCase()}:\n${randomSnippet}`;
         }
 
-        function addRandomCode() {
-            const codeSnippet = getRandomLanguage();
+        function typeOutCode(codeSnippet) {
             const codeElement = document.createElement('div');
-            codeElement.textContent = `${counter}. ${codeSnippet}`;
+            codeElement.className = 'codeSnippet';
             codeContainer.appendChild(codeElement);
             counter++;
-            // Auto-scroll to the bottom
-            codeContainer.scrollTop = codeContainer.scrollHeight;
+
+            let index = 0;
+            const interval = setInterval(() => {
+                if (index < codeSnippet.length) {
+                    codeElement.textContent += codeSnippet[index];
+                    index++;
+                } else {
+                    clearInterval(interval);
+                    // Auto-scroll to the bottom
+                    codeContainer.scrollTop = codeContainer.scrollHeight;
+                }
+            }, 50); // Adjust the speed here (50ms for each character)
         }
 
-        // Generate a new code snippet every 0.25 seconds
-        setInterval(addRandomCode, 250);
+        function addRandomCode() {
+            const codeSnippet = getRandomLanguage();
+            typeOutCode(codeSnippet);
+        }
+
+        // Generate a new code snippet every 1 second
+        setInterval(addRandomCode, 1000);
     </script>
 </body>
 </html>
