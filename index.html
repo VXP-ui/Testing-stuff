@@ -40,6 +40,22 @@
     <div id="codeContainer"></div>
 
     <script>
+        // Prevent screen from turning off
+        document.addEventListener('visibilitychange', function() {
+            if (document.visibilityState === 'visible') {
+                // If the page is visible, keep the screen awake
+                keepAwake();
+            }
+        });
+
+        function keepAwake() {
+            const request = window.requestAnimationFrame || window.webkitRequestAnimationFrame;
+            const preventSleep = () => {
+                request(preventSleep);
+            };
+            preventSleep();
+        }
+
         const codeContainer = document.getElementById('codeContainer');
 
         const languages = {
