@@ -32,8 +32,7 @@
             color: #fff; /* White text for visibility */
             font-family: 'Courier New', Courier, monospace;
             white-space: pre-wrap; /* Preserve whitespace */
-            margin-bottom: 10px; /* Space between snippets */
-            opacity: 0; /* Start invisible for animation */
+            margin-bottom: 5px; /* Space between snippets */
         }
     </style>
 </head>
@@ -42,170 +41,69 @@
 
     <script>
         const codeContainer = document.getElementById('codeContainer');
-        let counter = 1;
 
         const languages = {
             lua: [
                 `print("Hello, World!")\nfor i = 1, 10 do print(i) end\nlocal sum = 0\nfor i = 1, 100 do sum = sum + i end\nprint("Sum is: " .. sum)`,
-                `function factorial(n)\n  if n == 0 then return 1\n  else return n * factorial(n - 1)\n  end\nend\nprint(factorial(5))`
+                `function factorial(n)\n  if n == 0 then return 1\n  else return n * factorial(n - 1)\n  end\nend\nprint(factorial(5))`,
+                `for i = 1, 5 do\n  print("Iteration: " .. i)\nend`
             ],
             html: [
                 `<div class="item">Hello, World!</div>\n<p>This is a paragraph with <strong>bold text</strong>.</p>\n<ul><li>Item 1</li><li>Item 2</li></ul>`,
-                `<header><h1>Welcome</h1></header>\n<main><p>This is the main content area.</p></main>\n<footer><p>Footer content here.</p></footer>`
+                `<header><h1>Welcome</h1></header>\n<main><p>This is the main content area.</p></main>\n<footer><p>Footer content here.</p></footer>`,
+                `<form><label for="name">Name:</label><input type="text" id="name" name="name"></form>`
             ],
             python: [
                 `def fibonacci(n):\n  if n <= 1:\n    return n\n  else:\n    return fibonacci(n-1) + fibonacci(n-2)\nprint(fibonacci(10))`,
-                `for x in range(6):\n  print("Current number:", x)\n  if x % 2 == 0:\n    print(x, "is even.")\n  else:\n    print(x, "is odd.")`
+                `for x in range(6):\n  print("Current number:", x)\n  if x % 2 == 0:\n    print(x, "is even.")\n  else:\n    print(x, "is odd.")`,
+                `def hello(name):\n  print(f"Hello, {name}")\nhello("Alice")`
             ],
             javascript: [
                 `function greet(name) {\n  return "Hello, " + name + "!";\n}\nconsole.log(greet("World"));\nfor (let i = 0; i < 5; i++) {\n  console.log(i);\n}`,
-                `const numbers = [1, 2, 3, 4, 5];\nnumbers.forEach(num => {\n  console.log(num * 2);\n});`
+                `const numbers = [1, 2, 3, 4, 5];\nnumbers.forEach(num => {\n  console.log(num * 2);\n});`,
+                `let total = 0;\nfor (let i = 1; i <= 100; i++) {\n  total += i;\n}\nconsole.log("Total is:", total);`
             ],
             php: [
                 `<?php\nfunction multiply($a, $b) {\n  return $a * $b;\n}\necho multiply(5, 10);\n?>`,
-                `<?php\nfor ($i = 0; $i < 10; $i++) {\n  echo "Number: " . $i . "\\n";\n}\n?>`
+                `<?php\nfor ($i = 0; $i < 10; $i++) {\n  echo "Number: " . $i . "\\n";\n}\n?>`,
+                `<?php\n$name = "John";\necho "Hello, " . $name;\n?>`
             ]
         };
 
-        function getRandomLanguage() {
+        function getRandomSnippet() {
             const keys = Object.keys(languages);
             const randomKey = keys[Math.floor(Math.random() * keys.length)];
             const snippets = languages[randomKey];
-            const randomSnippet = snippets[Math.floor(Math.random() * snippets.length)];
-            return `${randomKey.toUpperCase()}:\n${randomSnippet}`;
+            return snippets[Math.floor(Math.random() * snippets.length)];
         }
 
         function typeOutCode(codeSnippet) {
             const codeElement = document.createElement('div');
             codeElement.className = 'codeSnippet';
             codeContainer.appendChild(codeElement);
-            counter++;
 
             let index = 0;
+            const typingSpeed = 10; // Typing speed in milliseconds
             const interval = setInterval(() => {
                 if (index < codeSnippet.length) {
                     codeElement.textContent += codeSnippet[index];
                     index++;
+                    codeContainer.scrollTop = codeContainer.scrollHeight; // Auto-scroll
                 } else {
                     clearInterval(interval);
-                    // Auto-scroll to the bottom
-                    codeContainer.scrollTop = codeContainer.scrollHeight;
+                    // Move to the next snippet after a very short delay
+                    setTimeout(addRandomCode, 100); // Shorter delay before the next snippet
                 }
-            }, 50); // Adjust the speed here (50ms for each character)
+            }, typingSpeed);
         }
 
         function addRandomCode() {
-            const codeSnippet = getRandomLanguage();
+            const codeSnippet = getRandomSnippet();
             typeOutCode(codeSnippet);
         }
 
-        // Generate a new code snippet every 1 second
-        setInterval(addRandomCode, 1000);
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Code Snippet Generator</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            height: 100vh;
-            margin: 0;
-            background-color: #000; /* Pitch black background */
-            color: #fff;
-            font-family: Arial, sans-serif;
-        }
-
-        #codeContainer {
-            width: 100vw;  /* Full width of the viewport */
-            height: 100vh; /* Full height of the viewport */
-            overflow-y: auto; /* Scroll if content overflows */
-            background-color: #000; /* Completely black background */
-            padding: 10px;
-            display: flex;
-            flex-direction: column; /* Stack items vertically */
-        }
-
-        .codeSnippet {
-            padding: 10px;
-            background-color: #000; /* Completely black for code snippets */
-            color: #fff; /* White text for visibility */
-            font-family: 'Courier New', Courier, monospace;
-            white-space: pre-wrap; /* Preserve whitespace */
-            margin-bottom: 10px; /* Space between snippets */
-            opacity: 0; /* Start invisible for animation */
-        }
-    </style>
-</head>
-<body>
-    <div id="codeContainer"></div>
-
-    <script>
-        const codeContainer = document.getElementById('codeContainer');
-        let counter = 1;
-
-        const languages = {
-            lua: [
-                `print("Hello, World!")\nfor i = 1, 10 do print(i) end\nlocal sum = 0\nfor i = 1, 100 do sum = sum + i end\nprint("Sum is: " .. sum)`,
-                `function factorial(n)\n  if n == 0 then return 1\n  else return n * factorial(n - 1)\n  end\nend\nprint(factorial(5))`
-            ],
-            html: [
-                `<div class="item">Hello, World!</div>\n<p>This is a paragraph with <strong>bold text</strong>.</p>\n<ul><li>Item 1</li><li>Item 2</li></ul>`,
-                `<header><h1>Welcome</h1></header>\n<main><p>This is the main content area.</p></main>\n<footer><p>Footer content here.</p></footer>`
-            ],
-            python: [
-                `def fibonacci(n):\n  if n <= 1:\n    return n\n  else:\n    return fibonacci(n-1) + fibonacci(n-2)\nprint(fibonacci(10))`,
-                `for x in range(6):\n  print("Current number:", x)\n  if x % 2 == 0:\n    print(x, "is even.")\n  else:\n    print(x, "is odd.")`
-            ],
-            javascript: [
-                `function greet(name) {\n  return "Hello, " + name + "!";\n}\nconsole.log(greet("World"));\nfor (let i = 0; i < 5; i++) {\n  console.log(i);\n}`,
-                `const numbers = [1, 2, 3, 4, 5];\nnumbers.forEach(num => {\n  console.log(num * 2);\n});`
-            ],
-            php: [
-                `<?php\nfunction multiply($a, $b) {\n  return $a * $b;\n}\necho multiply(5, 10);\n?>`,
-                `<?php\nfor ($i = 0; $i < 10; $i++) {\n  echo "Number: " . $i . "\\n";\n}\n?>`
-            ]
-        };
-
-        function getRandomLanguage() {
-            const keys = Object.keys(languages);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
-            const snippets = languages[randomKey];
-            const randomSnippet = snippets[Math.floor(Math.random() * snippets.length)];
-            return `${randomKey.toUpperCase()}:\n${randomSnippet}`;
-        }
-
-        function typeOutCode(codeSnippet) {
-            const codeElement = document.createElement('div');
-            codeElement.className = 'codeSnippet';
-            codeContainer.appendChild(codeElement);
-            counter++;
-
-            let index = 0;
-            const interval = setInterval(() => {
-                if (index < codeSnippet.length) {
-                    codeElement.textContent += codeSnippet[index];
-                    index++;
-                } else {
-                    clearInterval(interval);
-                    // Auto-scroll to the bottom
-                    codeContainer.scrollTop = codeContainer.scrollHeight;
-                }
-            }, 50); // Adjust the speed here (50ms for each character)
-        }
-
-        function addRandomCode() {
-            const codeSnippet = getRandomLanguage();
-            typeOutCode(codeSnippet);
-        }
-
-        // Generate a new code snippet every 1 second
-        setInterval(addRandomCode, 1000);
+        // Start the generation process
+        addRandomCode();
     </script>
 </body>
 </html>
