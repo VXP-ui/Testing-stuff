@@ -3,75 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Typing Effect</title>
+    <title>Random Code Generator</title>
     <style>
         body {
             display: flex;
-            justify-content: center;
-            align-items: center;
+            justify-content: flex-start;
+            align-items: flex-start;
             height: 100vh;
-            background-color: #282c34;
-            color: white;
+            margin: 0;
+            background-color: #f0f0f0;
             font-family: Arial, sans-serif;
-            font-size: 20vw; /* Further increased font size */
-            overflow: hidden;
-            margin: 0; /* Remove default margin */
-            text-align: center; /* Center align text */
         }
-        #text {
-            border-right: 2px solid white;
-            white-space: pre-wrap; /* Allow wrapping */
-            overflow: hidden;
-            animation: caret 0.75s step-end infinite;
+
+        #codeContainer {
+            width: 300px;
+            height: 100%;
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
-        @keyframes caret {
-            50% {
-                border-color: transparent;
-            }
-        }
-        #output {
-            margin-top: 20px; /* Space for output */
-            font-size: 2em; /* Adjust font size for output */
-            white-space: pre-wrap; /* Allow wrapping */
-            text-align: left; /* Align text to the left */
+
+        #codeContainer div {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #e7f3fe;
+            border-left: 4px solid #2196F3;
         }
     </style>
 </head>
 <body>
-    <div id="text"></div>
-    <pre id="output"></pre> <!-- Output area for tracking information -->
+    <div id="codeContainer"></div>
 
     <script>
-        const text = "You’re not skibidi alpha sigma rizzler";
-        let index = 0;
-        const typingSpeed = 100; // milliseconds
+        const codeContainer = document.getElementById('codeContainer');
+        let counter = 1;
 
-        function type() {
-            if (index < text.length) {
-                document.getElementById('text').innerHTML += text.charAt(index);
-                index++;
-                setTimeout(type, typingSpeed);
-            } else {
-                // Reset for continuous typing effect
-                setTimeout(() => {
-                    index = 0;
-                    document.getElementById('text').innerHTML = '';
-                    type();
-                }, 2000); // Pause before restarting
-            }
+        function generateRandomCode() {
+            return 'Code-' + Math.random().toString(36).substr(2, 5).toUpperCase();
         }
 
-        // Function to track user automatically
-        async function trackUser() {
-            const response = await fetch('/track');
-            const data = await response.json();
-            document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+        function addRandomCode() {
+            const code = generateRandomCode();
+            const codeElement = document.createElement('div');
+            codeElement.textContent = `${counter}. ${code}`;
+            codeContainer.appendChild(codeElement);
+            counter++;
+            // Auto-scroll to the bottom
+            codeContainer.scrollTop = codeContainer.scrollHeight;
         }
 
-        // Call trackUser when the page loads
-        window.onload = trackUser;
-
-        type();
+        // Generate a new code every 2 seconds
+        setInterval(addRandomCode, 2000);
     </script>
 </body>
 </html>
