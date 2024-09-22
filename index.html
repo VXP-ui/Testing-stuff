@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Code Generator</title>
+    <title>Random Code Snippet Generator</title>
     <style>
         body {
             display: flex;
@@ -11,25 +11,44 @@
             align-items: flex-start;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0;
+            background-color: #000; /* Pitch black background */
+            color: #fff;
             font-family: Arial, sans-serif;
         }
 
         #codeContainer {
-            width: 300px;
+            width: 600px;
             height: 100%;
             overflow-y: auto;
-            background-color: #fff;
-            border: 1px solid #ccc;
+            background-color: #000; /* Completely black background */
+            border: 1px solid #444; /* Optional border for better visibility */
             padding: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(255, 255, 255, 0.2);
+            display: flex;
+            flex-direction: column; /* Stack items vertically */
+            transition: all 0.2s ease-in-out; /* Smooth transition */
         }
 
         #codeContainer div {
             margin: 5px 0;
-            padding: 5px;
-            background-color: #e7f3fe;
-            border-left: 4px solid #2196F3;
+            padding: 10px;
+            background-color: #1a1a1a; /* Dark gray for code snippets */
+            border-left: 4px solid #00bcd4;
+            font-family: 'Courier New', Courier, monospace;
+            white-space: pre-wrap; /* Preserve whitespace */
+            opacity: 0; /* Start invisible for animation */
+            animation: slideIn 0.3s forwards; /* Slide-in effect */
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-10px); /* Slide from above */
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0); /* Slide to original position */
+                opacity: 1;
+            }
         }
     </style>
 </head>
@@ -40,22 +59,54 @@
         const codeContainer = document.getElementById('codeContainer');
         let counter = 1;
 
-        function generateRandomCode() {
-            return 'Code-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+        const languages = {
+            lua: [
+                `print("Hello, World!")`,
+                `for i = 1, 10 do print(i) end`,
+                `local a = 5; local b = 10; print(a + b)`
+            ],
+            html: [
+                `<div class="item">Hello, World!</div>`,
+                `<p>This is a paragraph.</p>`,
+                `<span style="color: red;">This is red text.</span>`
+            ],
+            python: [
+                `print("Hello, World!")`,
+                `for i in range(10): print(i)`,
+                `def add(a, b): return a + b`
+            ],
+            javascript: [
+                `console.log("Hello, World!");`,
+                `for (let i = 0; i < 10; i++) { console.log(i); }`,
+                `let sum = (a, b) => a + b;`
+            ],
+            php: [
+                `<?php echo "Hello, World!"; ?>`,
+                `<?php for ($i = 0; $i < 10; $i++) { echo $i; } ?>`,
+                `<?php function add($a, $b) { return $a + $b; } ?>`
+            ]
+        };
+
+        function getRandomLanguage() {
+            const keys = Object.keys(languages);
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            const snippets = languages[randomKey];
+            const randomSnippet = snippets[Math.floor(Math.random() * snippets.length)];
+            return `${randomKey.toUpperCase()}:\n${randomSnippet}`;
         }
 
         function addRandomCode() {
-            const code = generateRandomCode();
+            const codeSnippet = getRandomLanguage();
             const codeElement = document.createElement('div');
-            codeElement.textContent = `${counter}. ${code}`;
+            codeElement.textContent = `${counter}. ${codeSnippet}`;
             codeContainer.appendChild(codeElement);
             counter++;
             // Auto-scroll to the bottom
             codeContainer.scrollTop = codeContainer.scrollHeight;
         }
 
-        // Generate a new code every 2 seconds
-        setInterval(addRandomCode, 2000);
+        // Generate a new code snippet every 0.5 seconds
+        setInterval(addRandomCode, 500);
     </script>
 </body>
 </html>
